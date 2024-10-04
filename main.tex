@@ -1,0 +1,153 @@
+\documentclass[a4paper,12pt]{article}
+
+
+\usepackage[english,russian]{babel}	% локализация и переносы
+%\usepackage{minipage}
+
+\usepackage{unicode-math}
+\usepackage{fontspec}
+\setmainfont{Garamond}
+\setmathfont{Garamond-Math}
+
+%%% Гиперссылки
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames,svgnames,table,rgb]{xcolor}
+\hypersetup{				% Гиперссылки
+	unicode=true,           % русские буквы в разделареальных установках
+	pdfproducer={Производитель}, % Производитель
+	pdfkeywords={keyword1} {key2} {key3}, % Ключевые слова
+	colorlinks=true,       	% false: ссылки в рамках; true: цветные ссылки
+	linkcolor=red,          % внутренние ссылки
+	citecolor=green,        % на библиографию
+	filecolor=magenta,      % на файлы
+	urlcolor=cyan           % на URL
+}
+
+\usepackage{geometry} % Простой способ задавать поля
+\geometry{top=25mm}
+\geometry{bottom=25mm}
+\geometry{left=24mm}
+\geometry{right=24mm}
+
+\setcounter{secnumdepth}{2}
+
+\usepackage{tikz}
+
+\begin{document}
+	
+\begin{center}
+	
+        \normalsize Московский физико-технический институт \\
+						(государственный университет)
+	\vspace{46ex}
+	
+
+	\Large \textbf{Аппаратные решения для задач \\ защиты информации}
+
+	\vspace{40ex}
+\end{center}
+\begin{flushright}
+	\normalsize{Автор: Дедков Денис Андреевич \\ студент Б01-108 \\}
+\end{flushright}
+
+\vfill
+
+\begin{center}
+	Долгопрудный, 2024
+\end{center}
+
+\thispagestyle{empty} % выключаем отображение номера для этой страницы
+
+\newpage
+
+\tableofcontents{}
+\newpage
+
+\section{Введение}
+
+Акцент поставлен на развивающихся и актуальных областях и на нерешенных задачах.
+
+Обзор существующих аппаратных решений для актуальных задач в сфере защиты информации.
+
+
+\section{Причины использования аппаратных решений}
+
+
+
+
+
+% Definition of circles
+\def\firstcircle{(0,0) circle (2.5cm)}
+\def\secondcircle{(0:4cm) circle (2.5cm)}
+\def\secondcircle{(0:4cm) circle (2.5cm)}
+
+\colorlet{circle edge}{blue!50}
+\colorlet{circle area}{blue!20}
+
+\tikzset{filled/.style={fill=circle area, draw=circle edge, thick},
+	outline/.style={draw=circle edge, thick},
+	mycirc/.style={circle,fill=black!20, minimum size=0.01cm}}
+
+\setlength{\parskip}{5mm}
+
+\begin{center}
+	\begin{tikzpicture}
+		
+		\node[label=above:{GPGPU}] (gpgpu) at (-1cm,3.6cm) {} ;
+		\node[label=above:{FPGA}] (fpga) at (3cm,3.5cm) {} ;
+		\node[label=above:{CPU Extensions}] (cpu) at (2cm,4.5cm) {} ;
+		\node[label=above:{Квантовые решения}] (quantum) at (7cm,3cm) {};
+		
+		\draw (0,0) circle (3cm) node (accelerators) {Ускорители} ;
+		\draw (4.5cm,0) circle (3cm) node (opportunitie) {Усилители} ;
+		
+		m	\draw (-1.2cm,1cm) circle (0.1cm) node (gpgpu_p) {} ;
+		\draw (2.5cm,1cm) circle (0.1cm) node (fpga_p) {} ;
+		\draw (0.5cm,1.5cm) circle (0.1cm) node (cpu_p) {} ;
+		\draw (6cm,1.5cm) circle (0.1cm) node (quantum_p) {} ;
+		
+		\draw[->] (gpgpu) to [bend right=26] (gpgpu_p) ;	
+		\draw[->] (fpga)  to [bend left=20] (fpga_p) ;	
+		\draw[->] (cpu)  to [bend left=10] (cpu_p) ;	
+		\draw[->] (quantum)  to [bend right=25] (quantum_p) ;	
+	\end{tikzpicture}
+\end{center}
+
+\section{Обзор существующих аппаратных решений}
+
+\subsection{Расширения CPU}
+
+\subsection{GPGPU}
+
+GPGPU (General-purpose computing on graphics processing units) — использование графического процессора видеокарты, предназначенного для компьютерной графики, в целях производства математических вычислений, которые обычно проводит центральный процессор (CPU). Аппаратные решения, реализующие данную технологию, позволяют эффективно использовать параллелизм решаемых задач. Наиболее широко используются в сфере машинного обучения.
+
+Список производителей данных вычислителей: NVIDIA, AMD, Cerebras, Google, Intel, Biren. Однако на текущий момент более $80\%$ мирового рынка производителей GPGPU вычислителей занято компанией NVIDIA. А ключевую роль в этом играет CUDA (Compute Unified Device Architecture) -- программная модель NVIDIA. И на сегодняшний день альтернатив
+
+Классические криптографические алгоритмы, вроде RSA и AES, успешно оптимизируются под вычисления на существующих GPGPU решениях. CUDA реализации данных алгоритмов осуществляют на порядки превосходят передовые CPU решения.
+
+Параллельная RSA-расшифровка данных с применением видеокарт NVIDIA показывает 1197.5x ускорение относительно CPU \cite{RSA_CUDA}. Скорость шифрования в AES достигает значений в $200 \text{Gbps}$ \cite{AES_CUDA} \cite{AES_Pascal}, что в десятки раз превосходит оптимизированные CPU реализации с использованием Intel AES Extension. 
+    
+Недавнее сотрудничество компании QuSecure, лидера в сфере постквантовой криптографии, с компанией NVIDIA, привело к серьезным шагам в сторону адаптации GPGPU вычислителей для задач <<Постквантовой Эры>> \cite{cuPQC_Blog}. Одно из основных достижений в рамках сотрудничества -- создание CUDA cuPQC -- SDK (Software Development Kit) оптимизированных библиотек для ускорения передовых постквантовых алгоритмов . Завяляется $300-500x$ ускорение алгоритма Kyber 768 относительно оптимизированных с помощью Intel AVX реализаций \cite{cuPQC}.  
+
+
+\subsection{Квантовые решения}
+
+На текущий момент существует два класса задач, которые успешно решаются существующими квантовыми решениями: генерация случайных чисел (ГСЧ) и квантовое распределение ключей.
+
+\subsubsection{Генерация случайных чисел}
+\subsubsection{Квантовое распределение ключей}
+
+\subsection{Специализированное железо}
+\section{Заключение}
+
+
+\newpage
+%\LaTeX{} \cite{latex2e} is a set of macros built atop \TeX{} \cite{texbook}.
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{refs} % Entries are in the refs.bib file
+
+%https://www.cnbc.com/2024/06/02/nvidia-dominates-the-ai-chip-market-but-theres-rising-competition-.html
+\end{document}
+
+
+
